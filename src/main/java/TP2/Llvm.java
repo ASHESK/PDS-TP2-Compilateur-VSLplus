@@ -113,6 +113,11 @@ public class Llvm {
     }
   }
 
+  public static class Ident extends Type {
+    public String toString() {
+      return "ident";
+    }
+  }
   // TODO : other types
 
 
@@ -242,7 +247,7 @@ public class Llvm {
   }
 
   /**
-   * Class representing the division instruction
+   * Class representing the affect instruction
    */
   static public class Affect extends Instruction {
     String ident;
@@ -261,6 +266,27 @@ public class Llvm {
 
     public String toString() {
       return ident + " = " + affectValue + "\n";
+    }
+  }
+
+  /**
+   * Class representing the division instruction
+   */
+  static public class Alloca extends Instruction {
+
+    Type size;
+
+    /**
+     * The alloca instruction.
+     * alloca size
+     * @param size the type for which we need to allocate memory
+     */
+    public Alloca(Type size) {
+      this.size = size;
+    }
+
+    public String toString() {
+      return "alloca " + size.toString() + "\n";
     }
   }
 

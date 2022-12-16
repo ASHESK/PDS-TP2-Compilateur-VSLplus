@@ -1,6 +1,7 @@
 package TP2.ASD;
 
 import TP2.Llvm;
+import TP2.SymbolTable;
 import TP2.TypeException;
 import TP2.Utils;
 
@@ -9,13 +10,25 @@ import TP2.Utils;
  */
   public class AffectStatement extends Statement {
 
-    String ident;
+    Expression ident;
 
     Expression affectValue;
 
+    SymbolTable table;
+
     public AffectStatement(String ident, Expression affectValue) {
-      this.ident = ident;
+      this.ident = new IdentExpression(ident);
       this.affectValue = affectValue;
+      this.table = null;
+    }
+
+    public void updateSymbolTable(SymbolTable table) {
+      if (table != null) {
+        this.table = table;
+      }
+      else {
+        throw new NullPointerException("The table cannot be null");
+      }
     }
 
     /**
@@ -28,13 +41,22 @@ import TP2.Utils;
   @Override
   public RetExpression toIR() throws TypeException {
 
-    String ident = this.ident;
     Expression.RetExpression affectValue = this.affectValue.toIR();
 
-    String result = Utils.newglob(ident);
+    String result = "";
+
+    switch (affectValue.type.pp()) {
+      case "INT":
+      case "STRING" :
+        result = Utils.newglob(ident.pp());
+        break;
+      case "IDENT" :
+        result = ident.pp(); //table.get(ident).name
+        break;
+    }
 
     // new add instruction result = left / right
-    Llvm.Instruction affect = new Llvm.Affect(result, affectValue.result);
+    Llvm.Instruction affect = new Llvm.Affect(ident.pp(), affectValue.result);
 
     // append this instruction
     affectValue.ir.appendCode(affect);

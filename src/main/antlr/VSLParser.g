@@ -10,17 +10,31 @@ options {
 
   import java.util.stream.Collectors;
   import java.util.Arrays;
+  import java.util.stream.Stream;
+  import TP2.ASD.*;
 }
-
 
 // TODO : other rules
 
 program returns [TP2.ASD.Program out]
-    : s=statement EOF { $out = new TP2.ASD.Program($s.out); } // TODO : change when you extend the language
+    : bl=blocks EOF { $out = new TP2.ASD.Program($bl.out); } // TODO : change when you extend the language
+    ;
+
+blocks returns [List<TP2.ASD.Block> out]
+    : { $out = new ArrayList<>(); } b=block { $out.add($b.out); } (BL+ bl=blocks { $out.addAll($bl.out); })?
+    ;
+
+block returns [TP2.ASD.Block out]
+    : BL? LB BL+ sl=statements { $out = new TP2.ASD.Block($sl.out); } BL? RB BL?
+    ;
+
+statements returns [List<Statement> out]
+    : { $out = new ArrayList<>(); } s=statement { $out.add($s.out); } (BL+ sl=statements { $out.addAll($sl.out); })?
     ;
 
 statement returns [TP2.ASD.Statement out]
-    : i=IDENT EQUAL r=expression  { $out = new TP2.ASD.AffectStatement($i.text, $r.out); }
+    : i=IDENT EQUAL e=expression  { $out = new TP2.ASD.AffectStatement($i.text, $e.out); }
+    | RET e=expression  { $out = new TP2.ASD.ReturnStatement($e.out); }
     ;
 
 expression returns [TP2.ASD.Expression out]
@@ -42,5 +56,6 @@ factor returns [TP2.ASD.Expression out]
 
 primary returns [TP2.ASD.Expression out]
     : INTEGER { $out = new TP2.ASD.IntegerExpression($INTEGER.int); }
+    | IDENT { $out = new TP2.ASD.IdentExpression($IDENT.text); }
     // TODO : that's all?
     ;

@@ -36,6 +36,8 @@ public class Main {
       // Pretty-print the program (to debug parsing, if you implemented it!)
       // System.err.println(ast.pp());
 
+      SymbolTable table = new SymbolTable();
+
       // Compute LLVM IR from the ast
       try {
         Llvm.IR ir = ast.toIR();

@@ -11,6 +11,8 @@ import TP2.Utils;
     Expression left;
     Expression right;
 
+    Type type;
+
     public AddExpression(Expression left, Expression right) {
       this.left = left;
       this.right = right;

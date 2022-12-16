@@ -8,17 +8,20 @@ import TP2.Llvm;
 public class IdentExpression extends Expression {
   String ident;
 
+  Type type;
+
   public IdentExpression(String ident) {
     this.ident = ident;
   }
 
   public String pp() {
-    return "" + ident;
+    return ident;
   }
 
   public RetExpression toIR() {
     // Here we simply return an empty IR
     // the `result' of this expression is the integer itself (as string)
-    return new RetExpression(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Int(), "" + ident);
+    // TODO : Get ident type from symbTable
+    return new RetExpression(new Llvm.IR(Llvm.empty(), Llvm.empty()), new Ident(), "" + ident);
   }
 }
