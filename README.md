@@ -1,11 +1,11 @@
 # TP2 PDS, version Java
 
-Ce dépôt contient l'ensemble des fichiers dont vous avez besoin pour travailler
-sur le TP2 de PDS, si vous avez choisi de travailler en Java. Vous devez le
-forker pour pouvoir le modifier : le bouton se situe en haut de l'interface
-Gitlab.
+Ce dépot contient le code source d'un compilateur de VSL vers LLVM.
 
-**Attention !** Vous devez passer votre fork en *privé*.
+Dans son état actuel, il est capable de :
+- Compilation des additions et soustractions;
+- Compilation des divisions et multiplications;
+- Compilation des affectations;
+- Compilation des blocs de code.
 
-[comment]: <> (La version OCaml se situe dans un dépôt séparé :)
-[comment]: <> (https://gitlab.istic.univ-rennes1.fr/cferry/PDS-TP2-ocaml.git.)
+Pour le tester, vous pouvez utiliser le fichier `level1simple.vsl` dans `tests/testlevel1`.
